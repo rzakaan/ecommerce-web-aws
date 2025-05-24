@@ -5,37 +5,50 @@ import {
 } from '@aws-sdk/lib-dynamodb';
 import { DynamoDB } from '@aws-sdk/client-dynamodb';
 import { UserDetail } from "./model/UserDetail";
+import { SecretsManagerClient, GetSecretValueCommand, } from "@aws-sdk/client-secrets-manager";
 
 export class DynmaoDbService {
   tableName: string;
-  client: DynamoDBDocumentClient;
+  client!: DynamoDBDocumentClient;
   constructor(tableName: string) {
     this.tableName = tableName;
-    this.client = this.connect();
   }
 
-  connect() {
-    // dynamoDB client
-    const accessKeyId = process.env.AWS_ACCESS_KEY;
-    const secretAccessKey = process.env.AWS_SECRET_KEY;
-    const region = process.env.AWS_REGION;
+  async getCredentials(key: string) {
+    const client = new SecretsManagerClient({
+      region: "eu-central-1",
+    });
 
-    if (!accessKeyId || !secretAccessKey || !region) {
-      throw new Error('AWS credentials or region are not set in environment variables');
+    let response;
+    try {
+      response = await client.send(
+        new GetSecretValueCommand({
+          SecretId: key,
+        })
+      );
+    } catch (error) {
+      throw error;
     }
 
-    const credentials = {
-      accessKeyId: accessKeyId,
-      secretAccessKey: secretAccessKey,
+    const credentials = JSON.parse(response.SecretString || '{}');
+    console.log(credentials);
+    return {
+      accessKeyId: credentials.dynamo_access_key,
+      secretAccessKey: credentials.dynamo_secret_key,
     };
+  }
 
+  async connect() {
+    const dynamo_cred = await this.getCredentials("dynamo_credentials");
+    if (!dynamo_cred) {
+      throw new Error('AWS credentials or region are not set in environment variables');
+    }
     const config = {
-      region: region,
-      credentials: credentials
+      region: process.env.AWS_REGION,
+      credentials: dynamo_cred
     };
 
     this.client = DynamoDBDocument.from(new DynamoDB(config));
-    return this.client;
   }
 
   async getItems(partitionKey: number) {
