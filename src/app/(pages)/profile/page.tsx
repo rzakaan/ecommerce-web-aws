@@ -4,6 +4,7 @@ import Avatar from '@/app/components/Avatar';
 
 export default async function getInitialData() {
   let dynamodDb = new DynmaoDbService('Person');
+  await dynamodDb.connect();
   const items = await dynamodDb.getItems(2);
   const json = JSON.parse(JSON.stringify(items));
 

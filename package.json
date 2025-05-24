@@ -11,10 +11,11 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.735.0",
     "@aws-sdk/lib-dynamodb": "^3.734.0",
+    "@aws-sdk/client-secrets-manager" : "^3.817.0",
     "@heroui/react": "^2.6.14",
     "framer-motion": "^12.0.6",
     "jose": "^5.9.6",
-    "next": "15.1.6",
+    "next": "15.3.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
