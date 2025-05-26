@@ -1,5 +1,5 @@
 module.exports = {
-  extends: ['next', 'next/core-web-vitals', 'eslint:recommended'],
+  extends: ['next/core-web-vitals'],
   rules: {
     // kendi özel kurallarınız
   },
