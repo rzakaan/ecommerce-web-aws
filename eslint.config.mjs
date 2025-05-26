@@ -21,6 +21,7 @@ const compat = new FlatCompat({
     allConfig: js.configs.all
 });
 
+
 export default defineConfig([globalIgnores([
     ".now/*",
     "**/*.css",
