@@ -7,7 +7,6 @@ import {
   NavbarItem,
   NavbarMenuItem,
 } from "@heroui/navbar";
-import { Button } from "@heroui/button";
 import { Kbd } from "@heroui/kbd";
 import { Link } from "@heroui/link";
 import { Input } from "@heroui/input";
@@ -17,14 +16,7 @@ import clsx from "clsx";
 
 import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
-import {
-  TwitterIcon,
-  GithubIcon,
-  DiscordIcon,
-  HeartFilledIcon,
-  SearchIcon,
-  Logo,
-} from "@/components/icons";
+import { GithubIcon, SearchIcon, Logo } from "@/components/icons";
 
 export const Navbar = () => {
   const searchInput = (
@@ -50,7 +42,6 @@ export const Navbar = () => {
 
   return (
     <HeroUINavbar maxWidth="xl" position="sticky">
-
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
         <NavbarBrand className="gap-3 max-w-fit">
           <NextLink className="flex justify-start items-center gap-1" href="/">
@@ -59,7 +50,7 @@ export const Navbar = () => {
           </NextLink>
         </NavbarBrand>
 
-        { /* create menus */}
+        {/* create menus */}
         <div className="hidden lg:flex gap-4 justify-start ml-2">
           {siteConfig.navItems.map((item) => (
             <NavbarItem key={item.href}>
@@ -78,8 +69,11 @@ export const Navbar = () => {
         </div>
       </NavbarContent>
 
-      { /* create menus */}
-      <NavbarContent className="hidden sm:flex basis-1/5 sm:basis-full" justify="end">
+      {/* create menus */}
+      <NavbarContent
+        className="hidden sm:flex basis-1/5 sm:basis-full"
+        justify="end"
+      >
         <NavbarItem className="hidden sm:flex gap-2">
           <Link isExternal href={siteConfig.links.github} title="GitHub">
             <GithubIcon className="text-default-500" />
@@ -89,7 +83,7 @@ export const Navbar = () => {
         <NavbarItem className="hidden lg:flex">{searchInput}</NavbarItem>
       </NavbarContent>
 
-      { /* search box */}
+      {/* search box */}
       <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
         <Link isExternal href={siteConfig.links.github}>
           <GithubIcon className="text-default-500" />
@@ -98,7 +92,7 @@ export const Navbar = () => {
         <NavbarMenuToggle />
       </NavbarContent>
 
-      { /* search box */}
+      {/* search box */}
       <NavbarMenu>
         {searchInput}
         <div className="mx-4 mt-2 flex flex-col gap-2">
@@ -121,7 +115,6 @@ export const Navbar = () => {
           ))}
         </div>
       </NavbarMenu>
-
     </HeroUINavbar>
   );
 };

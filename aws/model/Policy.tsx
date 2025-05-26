@@ -1,6 +1,6 @@
 const PolicyType = {
   DASHBOARD_ACCESS: 0,
-  REPORT_ACESS: 1
+  REPORT_ACESS: 1,
 };
 
 export default class Policy {
@@ -15,4 +15,4 @@ export default class Policy {
   static getTableName() {
     return "Policy";
   }
-};
+}

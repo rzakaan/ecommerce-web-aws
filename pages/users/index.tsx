@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { Button } from '@heroui/button';
+import { useEffect, useState } from "react";
+import { Button } from "@heroui/button";
 import {
   Table,
   TableColumn,
@@ -9,27 +9,29 @@ import {
   TableBody,
   TableRow,
   TableCell,
-} from '@heroui/table';
-import "../../globals.css";
-import { Role } from '@/aws/model/Role';
-import { UserDetail } from '@/aws/model/UserDetail';
-import { DynmaoDbService } from '@/aws/DynamoDbService';
+} from "@heroui/table";
 
-const db = new DynmaoDbService('Person');
+import { Role } from "@/aws/model/Role";
+import { UserDetail } from "@/aws/model/UserDetail";
+import { DynmaoDbService } from "@/aws/DynamoDbService";
+
+const db = new DynmaoDbService("Person");
+
 db.connect();
 
 export default function UsersPage() {
   const [users, setUsers] = useState<UserDetail[]>([]);
+
   useEffect(() => {
     const fetchData = async () => {
       const item = await db.getItem(2);
       const user = UserDetail.fill(JSON.parse(JSON.stringify(item)));
+
       setUsers([user]);
     };
 
     fetchData();
   }, []);
-
 
   /*
   let dynamodDb = new DynmaoDbService('Person');
@@ -48,7 +50,7 @@ export default function UsersPage() {
 
   // <TableCell>{new Date(user.createdAt).toLocaleDateString()}</-TableCell>
   return (
-    <div className='flex flex-col items-center pt-5'>
+    <div className="flex flex-col items-center pt-5">
       <Table>
         <TableHeader>
           <TableColumn className="font-semibold">Name</TableColumn>
@@ -58,21 +60,22 @@ export default function UsersPage() {
           <TableColumn className="font-semibold">Actions</TableColumn>
         </TableHeader>
         <TableBody>
-          {
-            users.map((user: UserDetail) => (
-              <TableRow>
-                <TableCell>{user.name}</TableCell>
-                <TableCell>{user.email}</TableCell>
-                <TableCell>Date</TableCell>
-                <TableCell>{Role.toString(user.roles[0])}</TableCell>
-                <TableCell className="space-x-2">
-                  <Button color='secondary' onClick={() => handleChangeRole(user.person_id)}>
-                    Change Role
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))
-          }
+          {users.map((user: UserDetail) => (
+            <TableRow key={user.id}>
+              <TableCell>{user.name}</TableCell>
+              <TableCell>{user.email}</TableCell>
+              <TableCell>Date</TableCell>
+              <TableCell>{Role.toString(user.roles[0])}</TableCell>
+              <TableCell className="space-x-2">
+                <Button
+                  color="secondary"
+                  onClick={() => handleChangeRole(user.id)}
+                >
+                  Change Role
+                </Button>
+              </TableCell>
+            </TableRow>
+          ))}
         </TableBody>
       </Table>
     </div>

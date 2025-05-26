@@ -1,6 +1,6 @@
 export const RoleType = {
   ADMIN: 0,
-  REGULAR: 1
+  REGULAR: 1,
 };
 
 export class Role {
@@ -20,6 +20,7 @@ export class Role {
 
   static toString(id: number): string {
     const match = Object.entries(RoleType).find(([_, value]) => value === id);
+
     return match ? match[0] : "UNKNOWN";
   }
-};
+}
